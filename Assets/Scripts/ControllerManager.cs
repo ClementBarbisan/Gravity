@@ -37,7 +37,7 @@ public class ControllerManager : MonoBehaviour
                 _rb.AddForce(new Vector2(
                         Mathf.Cos((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) * valueVertical / coefficient,
                         Mathf.Sin((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) * valueVertical / coefficient),
-                    ForceMode2D.Impulse);
+                    ForceMode2D.Force);
         }
         else
         {
@@ -54,7 +54,7 @@ public class ControllerManager : MonoBehaviour
                 _rb.AddForce(new Vector2(
                         Mathf.Cos((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) * valueVertical / coefficient,
                         Mathf.Sin((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) * valueVertical / coefficient),
-                    ForceMode2D.Impulse);
+                    ForceMode2D.Force);
         }
     }
 }
