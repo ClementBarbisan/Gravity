@@ -28,6 +28,11 @@ public class ControllerManager : MonoBehaviour
     [FormerlySerializedAs("_playing")][HideInInspector] public bool playing = false;
     private GameObject _flame;
     private GameObject _panelStart;
+
+    [FormerlySerializedAs("_stop")] public bool stop = true;
+    private bool _invisible = false;
+    private float _isInvisible = 0;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -65,7 +70,7 @@ public class ControllerManager : MonoBehaviour
     
     public void StartPlaying()
     {
-        playing = true;
+        stop = false;
         _panelStart.SetActive(false);
     }
 
@@ -76,14 +81,27 @@ public class ControllerManager : MonoBehaviour
         // _arrow = GameObject.FindWithTag("ClueDirection").gameObject.transform;
     }
 
+    private void OnBecameVisible()
+    {
+        _invisible = false;
+        _isInvisible = 0;
+    }
+
+    private void OnBecameInvisible()
+    {
+        _invisible = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (!playing)
-        {
             _rb.velocity = Vector2.zero;
+        if (stop)
+        {
             return;
         }
+        
         float distance = Vector3.Distance(transform.position, _exit.transform.position);        
         _currentTime += Time.deltaTime;
         _time.text = _currentTime.ToString();
@@ -96,6 +114,7 @@ public class ControllerManager : MonoBehaviour
             }
             else if (_oldTouchPhase == TouchPhase.Stationary && _rotate == false && Input.GetTouch(0).phase == TouchPhase.Ended && fuelReserve > 0)
             {
+                playing = true;
                 _rb.AddForce(new Vector2(
                         Mathf.Cos((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) / coefficient,
                         Mathf.Sin((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) / coefficient),
@@ -127,7 +146,9 @@ public class ControllerManager : MonoBehaviour
             }
         }
 
-        if ((fuelReserve == 0 || distance > 50f) && distance > _oldDistance)
+        if (_invisible)
+            _isInvisible += Time.deltaTime;
+        if ((fuelReserve == 0 || distance > 150f || _isInvisible > 5f) && distance > _oldDistance)
         {
             playing = false;
             _restart.SetActive(true);

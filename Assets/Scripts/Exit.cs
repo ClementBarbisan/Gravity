@@ -44,7 +44,7 @@ public class Exit : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             _exitPanel.SetActive(true);
-            if (SceneManager.sceneCount > SceneManager.GetActiveScene().buildIndex + 1)
+            if (SceneManager.sceneCountInBuildSettings > SceneManager.GetActiveScene().buildIndex + 1)
                 _buttonNext.SetActive(true);
             else
             {
@@ -52,6 +52,7 @@ public class Exit : MonoBehaviour
             }
             StartCoroutine(ReduceScale(other.gameObject));
             ControllerManager.Instance.playing = false;
+            ControllerManager.Instance.stop = true;
             _time = GameObject.FindWithTag("Time").GetComponent<TextMeshProUGUI>();
             _fuel = GameObject.FindWithTag("Fuel").GetComponent<TextMeshProUGUI>();
             _score = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
