@@ -104,7 +104,7 @@ public class ControllerManager : MonoBehaviour
         
         float distance = Vector3.Distance(transform.position, _exit.transform.position);        
         _currentTime += Time.deltaTime;
-        _time.text = _currentTime.ToString();
+        _time.text = _currentTime.ToString("0.0");
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
@@ -133,9 +133,9 @@ public class ControllerManager : MonoBehaviour
                 transform.Rotate(Vector3.forward, 1f);
             else if (Input.GetKey(KeyCode.RightArrow))
                 transform.Rotate(Vector3.forward, -1f);
-            if (Input.GetKey(KeyCode.Space) && fuelReserve > 0)
+            if (Input.GetKeyDown(KeyCode.Space) && fuelReserve > 0)
             {
-
+                playing = true;
                 _rb.AddForce(new Vector2(
                     Mathf.Cos((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) / coefficient,
                     Mathf.Sin((transform.rotation.eulerAngles.z + 90f) * Mathf.Deg2Rad) / coefficient),
