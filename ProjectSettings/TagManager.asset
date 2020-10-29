@@ -13,6 +13,7 @@ TagManager:
   - Restart
   - Congrats
   - Next
+  - Flame
   layers:
   - Default
   - TransparentFX

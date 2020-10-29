@@ -26,19 +26,28 @@ public class ControllerManager : MonoBehaviour
     private float _oldDistance = 10000;
     private GameObject _restart;
     [FormerlySerializedAs("_playing")][HideInInspector] public bool playing = false;
-    
+    private GameObject _flame;
     private GameObject _panelStart;
     // Start is called before the first frame update
     private void Awake()
     {
         Instance = this;
         _panelStart = GameObject.FindWithTag("Start");
-        _restart = GameObject.FindWithTag("Restart").gameObject;
+        _restart = GameObject.FindWithTag("Restart");
         _restart.SetActive(false);
         _time = GameObject.FindWithTag("Time").GetComponent<TextMeshProUGUI>();
         _fuel = GameObject.FindWithTag("Fuel").GetComponent<TextMeshProUGUI>();
         _fuel.text = fuelReserve.ToString();
         _time.text = _currentTime.ToString();
+        _flame = GameObject.FindWithTag("Flame");
+        _flame.SetActive(false);
+    }
+
+    IEnumerator DisplayFlame()
+    {
+        _flame.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        _flame.SetActive(false);
     }
 
     public void ReloadScene()
@@ -52,6 +61,8 @@ public class ControllerManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    
+    
     public void StartPlaying()
     {
         playing = true;
@@ -91,6 +102,7 @@ public class ControllerManager : MonoBehaviour
                     ForceMode2D.Impulse);
                 fuelReserve -= 1;
                 _fuel.text = fuelReserve.ToString();
+                StartCoroutine(DisplayFlame());
             }
             else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                 _rotate = false;
@@ -111,10 +123,11 @@ public class ControllerManager : MonoBehaviour
                 ForceMode2D.Impulse);
                 fuelReserve -= 1;
                 _fuel.text = fuelReserve.ToString();
+                StartCoroutine(DisplayFlame());
             }
         }
 
-        if ((fuelReserve == 0 || distance > 200f) && distance > _oldDistance)
+        if ((fuelReserve == 0 || distance > 50f) && distance > _oldDistance)
         {
             playing = false;
             _restart.SetActive(true);

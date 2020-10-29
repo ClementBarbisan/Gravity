@@ -13,6 +13,7 @@ public class Exit : MonoBehaviour
     private TextMeshProUGUI _fuel;
     private GameObject _congrats;
     private GameObject _buttonNext;
+    private Vector3 _localScale;
     private void Awake()
     {
         _buttonNext = GameObject.FindWithTag("Next");
@@ -21,7 +22,12 @@ public class Exit : MonoBehaviour
         _congrats.SetActive(false);
         _exitPanel = GameObject.FindWithTag("Success");
         _exitPanel.SetActive(false);
-        
+        _localScale = transform.localScale;
+    }
+
+    private void Update()
+    {
+        transform.Rotate(0, 0, Time.deltaTime * 20f);
     }
 
     IEnumerator ReduceScale(GameObject player)
@@ -49,7 +55,7 @@ public class Exit : MonoBehaviour
             _time = GameObject.FindWithTag("Time").GetComponent<TextMeshProUGUI>();
             _fuel = GameObject.FindWithTag("Fuel").GetComponent<TextMeshProUGUI>();
             _score = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
-            _score.text = (float.Parse(_fuel.text) - float.Parse(_time.text)).ToString();
+            _score.text = (float.Parse(_fuel.text) - float.Parse(_time.text) * 5f).ToString();
         }
     }
 }
