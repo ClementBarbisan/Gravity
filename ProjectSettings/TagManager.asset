@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ClueDirection
+  - Success
+  - Start
+  - Time
+  - Fuel
+  - Score
+  - Restart
+  - Congrats
+  - Next
   layers:
   - Default
   - TransparentFX
