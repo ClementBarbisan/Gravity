@@ -56,7 +56,7 @@ public class Exit : MonoBehaviour
             _time = GameObject.FindWithTag("Time").GetComponent<TextMeshProUGUI>();
             _fuel = GameObject.FindWithTag("Fuel").GetComponent<TextMeshProUGUI>();
             _score = GameObject.FindWithTag("Score").GetComponent<TextMeshProUGUI>();
-            _score.text = (float.Parse(_fuel.text) - float.Parse(_time.text) * 5f).ToString();
+            _score.text = ((int.Parse(_fuel.text) - float.Parse(_time.text)) * 100f).ToString();
         }
     }
 }

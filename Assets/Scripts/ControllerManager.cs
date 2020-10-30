@@ -32,6 +32,7 @@ public class ControllerManager : MonoBehaviour
     [FormerlySerializedAs("_stop")] public bool stop = true;
     private bool _invisible = false;
     private float _isInvisible = 0;
+    private bool _touchPlanet = false;
 
     // Start is called before the first frame update
     private void Awake()
@@ -130,9 +131,9 @@ public class ControllerManager : MonoBehaviour
         else
         {
             if (Input.GetKey(KeyCode.LeftArrow))
-                transform.Rotate(Vector3.forward, 1f);
+                transform.Rotate(Vector3.forward, 4);
             else if (Input.GetKey(KeyCode.RightArrow))
-                transform.Rotate(Vector3.forward, -1f);
+                transform.Rotate(Vector3.forward, -4);
             if (Input.GetKeyDown(KeyCode.Space) && fuelReserve > 0)
             {
                 playing = true;
@@ -148,14 +149,20 @@ public class ControllerManager : MonoBehaviour
 
         if (_invisible)
             _isInvisible += Time.deltaTime;
-        if ((fuelReserve == 0 || distance > 150f || _isInvisible > 5f) && distance > _oldDistance)
+        if ((fuelReserve == 0 || distance > 150f || _isInvisible > 5f) && distance > _oldDistance || _touchPlanet)
         {
             playing = false;
+            stop = true;
             _restart.SetActive(true);
         }
 
         _oldDistance = distance;
         // _arrow.position = Vector3.Scale(new Vector3(1, 1, 0), transform.position + (_exit.transform.position - transform.position).normalized * 10f);
         // _arrow.rotation = Quaternion.LookRotation(Vector3.forward, _exit.transform.position - transform.position);
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        _touchPlanet = true;
     }
 }

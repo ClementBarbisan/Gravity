@@ -23,7 +23,7 @@ public class Gravitron : MonoBehaviour
             return;
         Vector2 direction = new Vector2( transform.position.x - _player.gameObject.transform.position.x,  transform.position.y - _player.gameObject.transform.position.y).normalized;
         float value = 1f / (Mathf.Pow(Vector3.Distance(transform.position, _player.gameObject.transform.position)
-                               / (transform.localScale.x * 30f), 2)) * Time.deltaTime * 25f;
+                               / (transform.localScale.x * 20f), 2)) * Time.deltaTime * 25f;
         _player.AddForce(new Vector2(direction.x * value, direction.y * value), ForceMode2D.Force);
         
     }
