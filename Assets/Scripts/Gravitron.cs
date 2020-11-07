@@ -8,17 +8,20 @@ public class Gravitron : MonoBehaviour
     private Rigidbody2D _player;
     
     private CircleCollider2D _collider;
+
+    private float _rotationSpeed = 2f;
     // Start is called before the first frame update
     void Start()
     {
         _player = ControllerManager.Instance.gameObject.GetComponent<Rigidbody2D>();
         _collider = GetComponent<CircleCollider2D>();
+        _rotationSpeed = Random.Range(-20f, 20f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, 0, Time.deltaTime * 10f);
+        transform.Rotate(0, 0, Time.deltaTime * _rotationSpeed);
         if (!ControllerManager.Instance.playing)
             return;
         Vector2 direction = new Vector2( transform.position.x - _player.gameObject.transform.position.x,  transform.position.y - _player.gameObject.transform.position.y).normalized;
